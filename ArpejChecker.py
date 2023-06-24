@@ -3,6 +3,14 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from time import sleep
+from dotenv import load_dotenv
+import os
+import requests
+
+load_dotenv(".env")
+TELEGRAM_API_KEY = os.getenv("TELEGRAM_API_KEY")
+CHAT_IDS:[str] = os.getenv("CHAT_IDS").split(",")
+TELEGRAM_MESSAGE = "🔥 L'appart est dispo 🔥"
 
 #--| Setup
 options = Options()
@@ -27,6 +35,7 @@ def call():
         except NoSuchElementException:
             #Add code to notify user
             print("Accommodation here!")
+            send_telegram_alert()
             found = True
             driver.quit()
             return 0
@@ -38,4 +47,12 @@ def call():
     print("Accommodation not found or maximum retries reached.")
     driver.quit()
 
-call()
+def send_telegram_alert():
+    print("sending telegram messages:")
+    for chat_id in CHAT_IDS:
+        telegram_url = f"https://api.telegram.org/bot{TELEGRAM_API_KEY}/sendMessage?chat_id={chat_id}&text={TELEGRAM_MESSAGE}"
+        print(requests.get(telegram_url).json()) # this sends the message
+
+
+if __name__ == "__main__":
+    call()
