@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 from time import sleep
 import requests
 
+url = "https://www.arpej.fr/fr/residence/porte-ditalie-residence-etudiante-le-kremlin-bicetre/"
+
 def call():
     found = False
     retries = 0 
