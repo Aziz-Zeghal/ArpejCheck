@@ -26,7 +26,7 @@ def call():
             message = client.messages.create(
                 to = keys.target_number,
                 from_ = keys.twilio_number,
-                body = "Found an accomodation here : " + link)
+                body = "Found an accomodation here : " + url)
             found = True
             return 0
         print("try")
